@@ -1,0 +1,16 @@
+fastapi[standard]==0.115.11
+pydantic==2.8.0
+passlib
+pytest
+httpx
+pytest-asyncio
+aiofiles
+jinja2
+psycopg2-binary
+PyMySQL
+python-jose
+python-multipart
+SQLAlchemy
+bcrypt==4.0.1
+cryptography
+alembic

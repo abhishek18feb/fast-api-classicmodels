@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+classicmodelsenv/
+.classicmodelsenv/
+
+# FastAPI environment files
+.env
+.env.local
+*.env
+
+# Dependency files
+poetry.lock
+Pipfile.lock
+
+# Logs & debug files
+*.log
+logs/
+
+# IDE and Editor settings
+.vscode/
+.idea/
+*.iml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# pytest & coverage
+htmlcov/
+*.cover
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.mo
+*.pot
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# MyPy type checking cache
+.mypy_cache/
+
+# SQLAlchemy migrations (Alembic)
+alembic/versions/*.pyc
+alembic/versions/__pycache__/
