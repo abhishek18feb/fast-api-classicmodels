@@ -171,6 +171,17 @@ def select_distinct_clause(db:db_dependency):
 
     return {"data":data, "totalRecords":len(data)}
 
+@router.get("/mysql-like-operater", status_code=status.HTTP_200_OK)
+def mysql_like_clause(db:db_dependency):
+    results = db.query(Employees.employeeNumber, Employees.lastName, Employees.firstName)\
+                .filter(Employees.firstName.like('a%'))
+    if results is not None:
+        data = [{"employeeNumber":employeeNumber, "lastName":lastName, "firstName":firstName} for employeeNumber, lastName, firstName in results]
+        return {"data":data, "total":len(data)}
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Records not found") 
+
+
 
 
 
