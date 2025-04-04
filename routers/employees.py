@@ -1,6 +1,6 @@
 from typing import Annotated
 from sqlalchemy.orm import Session
-from sqlalchemy import select, func, or_, between
+from sqlalchemy import select, func, or_, between, not_
 from fastapi import Depends, HTTPException, Path, APIRouter
 from passlib.context import CryptContext
 from models import Employees, Customers
@@ -180,6 +180,19 @@ def mysql_like_clause(db:db_dependency):
         return {"data":data, "total":len(data)}
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Records not found") 
+    
+@router.get("/mysql-not-like-operator", status_code=status.HTTP_200_OK)
+def mysql_not_like_operator(db:db_dependency):
+    results = db.query(Employees.employeeNumber, Employees.lastName, Employees.firstName)\
+                .filter((Employees.firstName.not_like('B%')))
+    if results is not None:
+        data = [{"employeeNumber":employeeNumber, "lastName":lastName, "firstName":firstName} for employeeNumber, lastName, firstName in results]
+        return {"data":data, "total":len(data)}
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Records not found") 
+    
+
+    
 
 
 

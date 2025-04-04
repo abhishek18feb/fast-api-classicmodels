@@ -42,3 +42,13 @@ def get_product_range_not_between_90_and_100(db:db_dependency):
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No record found")
     
+@router.get("/mysql-like-operator-with-escape", status_code=status.HTTP_200_OK)
+def mysql_like_with_escape(db:db_dependency):
+    results = db.query(Products.productCode, Products.productName)\
+                .filter((Products.productCode.like('%\_20%')))
+    if results is not None:
+        data = [{"productCode":productCode, "productName":productName} for productCode, productName in results]
+        return {"data":data, "total":len(data)}
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Records not found")
+    
