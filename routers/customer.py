@@ -63,6 +63,28 @@ def where_with_multiple_or_nd_and_condition(db:db_dependency):
         return {"data":data, "total":len(data)}
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No record found")
+    
+@router.get("/customer-with-is-not-null", status_code=status.HTTP_200_OK)
+def select_with_is_not_null(db:db_dependency):
+    results = db.query(Customers.customerName, Customers.country, Customers.salesRepEmployeeNumber)\
+    .filter(Customers.salesRepEmployeeNumber.is_not(None)).all()
+
+    if results is not None:
+        data = [{"customerName":customerName, "country":country, "salesRepEmployeeNumber":salesRepEmployeeNumber} for customerName, country, salesRepEmployeeNumber in results]
+        return {"data":data, "total":len(data)}
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No Record Found")
+    
+@router.get("/customer-with-sales-respresentative-is-null", status_code=status.HTTP_200_OK)
+def select_customer_with_sales_representative_is_null(db:db_dependency):
+    results = db.query(Customers.customerName, Customers.country, Customers.salesRepEmployeeNumber)\
+    .filter(Customers.salesRepEmployeeNumber.is_(None)).all()
+    if results is not None:
+        data = [{"customerName":customerName, "country":country, "salesRepEmployeeNumber":salesRepEmployeeNumber} for customerName, country, salesRepEmployeeNumber in results]
+        return {"data":data, "total":len(data)}
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No Record Found")
+
 
 
     
