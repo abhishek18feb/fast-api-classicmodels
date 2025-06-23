@@ -191,7 +191,15 @@ def mysql_not_like_operator(db:db_dependency):
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Records not found") 
     
-
+@router.get("/full-names", status_code=status.HTTP_200_OK)
+def mysql_alias_get_fullname(db:db_dependency):
+    results = db.query(func.concat_ws(", ", Employees.firstName, Employees.lastName).label("Full name")).order_by("Full name")
+    # return results
+    if results is not None:
+        data = [{"full_name":name[0]} for name in results]
+        return {"data":data, "total":len(data)}
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Records not found") 
     
 
 

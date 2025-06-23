@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import models
 from database import engine
-from routers import  employees, empauth, customer, orders, offices, products
+from routers import  employees, empauth, customer, orders, offices, products, memjoin
 
 app = FastAPI()
 
@@ -17,4 +17,5 @@ app.include_router(customer.router)
 app.include_router(orders.router)
 app.include_router(offices.router)
 app.include_router(products.router)
+app.include_router(memjoin.router)
 

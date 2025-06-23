@@ -101,6 +101,16 @@ class Payments(Base):
     paymentDate = Column(Date, nullable=True)
     amount = Column(DECIMAL(10, 2), nullable=True)
 
+class Member(Base):
+    __tablename__ = "members"
+    member_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = Column(String(100), nullable=True)  # nullable=True since original doesn't specify NOT NULL
+
+class Committee(Base):
+    __tablename__ = "committees"
+    committee_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = Column(String(100), nullable=True)
+
 
 
 
