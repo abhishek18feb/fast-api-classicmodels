@@ -8,6 +8,7 @@ from database import  SessionLocal
 from starlette import status
 from pydantic import  BaseModel, Field
 from .empauth import get_current_emp
+from typing import List
 
 router = APIRouter(
     prefix='/memjoin',
@@ -24,19 +25,25 @@ def get_db():
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
-@router.get('insert-members-data')
-def insert_members_data(db:db_dependency):
-    members = [
-        Member(name="John"),
-        Member(name="Jane"),
-        Member(name="Mary"),
-        Member(name="David"),
-        Member(name="Amelia")
-    ]
-    db.add_all(members)
+class MemberCreate(BaseModel):
+    name: str
+
+class CommitteeCreate(BaseModel):
+    name: str
+
+@router.post("/insert-members-data")
+def insert_members_data(members: List[MemberCreate], db: Session = Depends(get_db)):
+    db_members = [Member(name=member.name) for member in members]
+    db.add_all(db_members)
     db.commit()
+    return {"message": "Members inserted successfully"}
 
-
+@router.post("/insert-committee-data")
+def insert_committee_data(committees: List[CommitteeCreate], db: Session = Depends(get_db)):
+    db_committee = [Committee(name=committee.name) for committee in committees]
+    db.add_all(db_committee)
+    db.commit()
+    return{"message": "Committe insterted successfully"}
 
 
 
